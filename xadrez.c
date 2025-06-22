@@ -4,74 +4,85 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
+// === Funções Recursivas ===
+
+// Função recursiva para a Torre: direita
+void moverTorre(int passos) {
+    if (passos <= 0) return;
+    printf("Direita\n");
+    moverTorre(passos - 1);
+}
+
+// Função recursiva para a Rainha: esquerda
+void moverRainha(int passos) {
+    if (passos <= 0) return;
+    printf("Esquerda\n");
+    moverRainha(passos - 1);
+}
+
+// Função recursiva para o Bispo: diagonal cima-direita com loop aninhado
+void moverBispo(int linha, int coluna, int maxMovimentos) {
+    if (linha >= maxMovimentos || coluna >= maxMovimentos) return;
+
+    int i = linha;
+    do {
+        printf("Cima\n");
+
+        int j = coluna;
+        do {
+            printf("Direita\n");
+            break; // evita múltiplas impressões por recursão
+        } while (++j < maxMovimentos);
+
+        break; // garante apenas uma execução por recursão
+    } while (++i < maxMovimentos);
+
+    moverBispo(linha + 1, coluna + 1, maxMovimentos);
+}
 
 int main() {
     printf("=== Início do Programa ===\n\n");
 
-    // Constantes para o número de casas a serem movidas por cada peça
-    const int casasTorre = 5;
-    const int casasBispo = 5;
-    const int casasRainha = 8;
-    const int casasCavaloBaixo = 2;
-    const int casasCavaloEsquerda = 1;
-
     // ==============================
-    // Movimentação da Torre (FOR)
+    // Movimento da Torre (recursivo)
     // ==============================
-    // A Torre se move em linha reta, na horizontal ou vertical.
-    // Aqui simulamos o movimento da Torre 5 casas para a direita.
-
     printf("=== Início do Movimento da Torre ===\n");
-    for (int i = 1; i <= casasTorre; i++) {
-        printf("Direita\n");
-    }
+    moverTorre(5);
     printf("=== Fim do Movimento da Torre ===\n\n");
 
     // ==============================
-    // Movimentação do Bispo (WHILE)
+    // Movimento do Bispo (recursivo + loop aninhado)
     // ==============================
-    // O Bispo se move na diagonal.
-    // Aqui simulamos o movimento do Bispo 5 casas na diagonal superior direita.
-
     printf("=== Início do Movimento do Bispo ===\n");
-    int i = 1;
-    while (i <= casasBispo) {
-        printf("Cima, Direita\n");
-        i++;
-    }
+    moverBispo(0, 0, 5);
     printf("=== Fim do Movimento do Bispo ===\n\n");
 
     // ==============================
-    // Movimentação da Rainha (DO-WHILE)
+    // Movimento da Rainha (recursivo)
     // ==============================
-    // A Rainha pode se mover em todas as direções.
-    // Aqui simulamos o movimento da Rainha 8 casas para a esquerda.
-
     printf("=== Início do Movimento da Rainha ===\n");
-    int j = 1;
-    do {
-        printf("Esquerda\n");
-        j++;
-    } while (j <= casasRainha);
+    moverRainha(8);
     printf("=== Fim do Movimento da Rainha ===\n\n");
 
     // ==============================
-    // Movimentação do Cavalo (FOR + WHILE)
+    // Movimento do Cavalo (loops aninhados, múltiplas condições, continue/break)
     // ==============================
-    // O Cavalo se move em "L": duas casas para baixo e uma casa para a esquerda.
-    // Utilizamos dois loops aninhados: for para o movimento vertical e while para o horizontal.
-
     printf("=== Início do Movimento do Cavalo ===\n");
 
-    for (int passoBaixo = 1; passoBaixo <= casasCavaloBaixo; passoBaixo++) {
-        printf("Baixo\n");
+    int movimentosCima = 2;
+    int movimentosDireita = 1;
+    int cima, direita;
 
-        // Após os dois passos para baixo, fazemos um passo para a esquerda
-        if (passoBaixo == casasCavaloBaixo) {
-            int passoEsquerda = 1;
-            while (passoEsquerda <= casasCavaloEsquerda) {
-                printf("Esquerda\n");
-                passoEsquerda++;
+    for (cima = 1; cima <= movimentosCima; cima++) {
+        // Simula uma casa para cima a cada iteração
+        printf("Cima\n");
+
+        // Quando chega na segunda casa para cima, faz o movimento para a direita
+        if (cima == movimentosCima) {
+            for (direita = 1; direita <= movimentosDireita; direita++) {
+                if (direita == 0) continue;  // não entra aqui, mas demonstra uso
+                if (direita > 1) break;      // demonstra uso de break
+                printf("Direita\n");
             }
         }
     }
